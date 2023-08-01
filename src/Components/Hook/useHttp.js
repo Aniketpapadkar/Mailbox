@@ -1,0 +1,27 @@
+import { useState, useCallback } from "react";
+import axios from "axios";
+
+const useHttp = () => {
+  // CUSTOM HOOK FOR MAKING API CALLS
+  const [error, setError] = useState(null);
+
+  const sendRequest = useCallback(async (requestConfig, resData) => {
+    setError(null);
+    try {
+      const res = await axios[requestConfig.request](
+        requestConfig.url,
+        requestConfig.data ? requestConfig.data : null,
+        { headers: requestConfig.header }
+      );
+      console.log(res);
+      resData(res);
+    } catch (err) {
+      // console.log(err);
+      // setError(err.message);
+      alert("Please create an account!")
+    }
+  }, []);
+
+  return [error, sendRequest];
+};
+export default useHttp;
